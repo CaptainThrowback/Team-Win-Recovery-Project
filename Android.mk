@@ -16,11 +16,11 @@ LOCAL_PATH := $(call my-dir)
 
 ifeq ($(RECOVERY_VARIANT),)
 ifeq ($(LOCAL_PATH),bootable/recovery)
-RECOVERY_VARIANT := twrp
+RECOVERY_VARIANT := multirom
 endif
 endif
 
-ifeq ($(RECOVERY_VARIANT),twrp)
+ifeq ($(RECOVERY_VARIANT),multirom)
 
 include $(CLEAR_VARS)
 
