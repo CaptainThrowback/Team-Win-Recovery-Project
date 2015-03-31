@@ -1093,9 +1093,15 @@ bool TWPartition::Mount(bool Display_Error) {
 			}
 			return true;
 		}
-	} else if (!mounted && mount(Actual_Block_Device.c_str(), Mount_Point.c_str(), Current_File_System.c_str(), flags, mnt_opts.c_str()) != 0 &&
-			mount(Actual_Block_Device.c_str(), Mount_Point.c_str(), Current_File_System.c_str(), flags, NULL) != 0) {
+	}
 
+	string mount_fs = Current_File_System;
+	if (Current_File_System == "exfat" && TWFunc::Path_Exists("/sys/module/texfat"))
+		mount_fs = "texfat";
+
+	if (!mounted &&
+		mount(Actual_Block_Device.c_str(), Mount_Point.c_str(), mount_fs.c_str(), flags, mnt_opts.c_str()) != 0 &&
+		mount(Actual_Block_Device.c_str(), Mount_Point.c_str(), mount_fs.c_str(), flags, NULL) != 0) {
 #ifdef TW_NO_EXFAT_FUSE
 		if (Current_File_System == "exfat") {
 			LOGINFO("Mounting exfat failed, trying vfat...\n");
